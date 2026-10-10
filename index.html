@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#174f3e">
+<meta name="description" content="Tiny outdoor missions to help you look up, explore, and reconnect with the real world.">
+<title>TouchGrass AI — Tiny adventures, real world</title>
+<style>
+:root{--green:#174f3e;--lime:#d9f99d;--cream:#f8f6ed;--ink:#18352c;--orange:#f47c52;--muted:#61756a}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:18px max(20px,calc((100% - 1000px)/2));background:var(--green);color:white;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:1.12rem}.pill{border:1px solid #ffffff70;border-radius:99px;padding:5px 11px;font-size:.8rem}
+main{max-width:1000px;margin:auto;padding:26px 20px 55px}.hero{padding:25px 0 15px;max-width:750px}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:.75rem;font-weight:800;color:#46765f}
+h1{font-size:clamp(2.5rem,7vw,5rem);line-height:.98;letter-spacing:-2.5px;margin:10px 0 18px}h1 span{color:#49815f}.lead{font-size:1.12rem;max-width:650px;color:#52675c}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.9fr);gap:18px;margin-top:20px}.card{background:#fff;border:1px solid #dce3d8;border-radius:22px;padding:22px;box-shadow:0 8px 28px #174f3e0a}
+label{display:block;font-weight:750;margin:13px 0 6px}select,textarea{width:100%;padding:12px;border:1px solid #cbd8cd;border-radius:11px;background:#fff;color:var(--ink);font:inherit}
+button{border:0;border-radius:12px;padding:12px 16px;background:var(--green);color:white;font:inherit;font-weight:800;cursor:pointer}button:hover{filter:brightness(1.12)}button.secondary{background:var(--lime);color:var(--ink)}button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}.result{min-height:220px;background:#f0f6e9;border-radius:16px;padding:18px;margin-top:14px}.result h3{margin:0 0 8px}.muted{color:var(--muted);font-size:.9rem}.mission{padding:10px 0;border-bottom:1px solid #d6e4d2}.mission:last-child{border:0}
+.status{font-size:.86rem;margin-top:12px}.journal{margin-top:18px}textarea{min-height:95px;resize:vertical}.tag{display:inline-block;background:#e9f2df;border-radius:99px;padding:4px 9px;font-size:.78rem;font-weight:700}
+footer{text-align:center;color:#60756a;padding:22px;font-size:.85rem}
+@media(max-width:700px){.layout{grid-template-columns:1fr}header{padding:17px 20px}h1{letter-spacing:-1.5px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header><div class="logo">🌿 TouchGrass AI</div><div class="pill">Local-first nature companion</div></header>
+<main>
+<section class="hero"><div class="eyebrow">A little less scrolling. A little more living.</div><h1>Go outside.<br><span>Find your next little adventure.</span></h1><p class="lead">Choose your time, mood, and surroundings to get a tiny real-world mission. The screen is the starting point — the adventure happens outside.</p><span class="tag">No account needed</span> <span class="tag">Sample missions work offline</span></section>
+<div class="layout">
+<section class="card">
+<h2>Plan an outdoor mission</h2><p class="muted">Create a mission with local AI, or use a ready-made one immediately.</p>
+<label for="time">How much time do you have?</label><select id="time"><option>10 minutes</option><option selected>20 minutes</option><option>30 minutes</option><option>45 minutes</option></select>
+<label for="place">Where will you go?</label><select id="place"><option>My street or neighbourhood</option><option>A park or garden</option><option>A balcony or backyard</option><option>A nature trail</option><option>Anywhere safe outdoors</option></select>
+<label for="mood">What's your mood?</label><select id="mood"><option>Curious</option><option>Calm and mindful</option><option>Energetic</option><option>I need a screen break</option><option>Creative</option></select>
+<div class="buttons"><button id="generate">Generate with local AI</button><button class="secondary" id="sample">Give me a mission</button></div>
+<p id="status" role="status" class="status muted">Local AI needs Ollama running on your computer. The quick mission button works without Ollama.</p>
+</section>
+<section class="card"><h2>Your mission</h2><div class="result" id="result"><h3>🌱 Ready when you are</h3><p>Try finding three leaf shapes, listening for different sounds, or spotting a colour you usually overlook.</p></div><p class="muted">Stay in safe public areas, respect private property and wildlife, and never eat unknown plants or mushrooms.</p></section>
+</div>
+<section class="card journal"><h2>After your adventure</h2><label for="note">What did you notice outside?</label><textarea id="note" placeholder="A sound, a plant, a cloud, a tiny moment..."></textarea><div class="buttons"><button class="secondary" id="save">Save note on this device</button><button id="clear">Clear note</button></div><p id="saved" class="muted">Your journal is saved only in this browser on this device.</p></section>
+</main><footer>TouchGrass AI · Hacktoberfest Open-Source AI Challenge · Week 1: Touch Grass</footer>
+<script>
+const $=id=>document.getElementById(id);
+const samples=[
+{title:"The Tiny Nature Detective",steps:["Find three different leaf shapes without picking them.","Look for one sign of an insect or bird from a respectful distance.","Notice one colour you had not paid attention to before."],finish:"Take one slow breath and name your favourite discovery."},
+{title:"The Five-Sense Reset",steps:["Notice three things you can see.","Pause and identify two different sounds.","Feel the breeze or notice the ground beneath your feet."],finish:"Put your phone away for the rest of the walk if it feels safe."},
+{title:"Neighbourhood Colour Hunt",steps:["Choose a colour before you start.","Find five safe, everyday things with that colour.","Look up and spot a shape in clouds, trees, or buildings."],finish:"Which discovery surprised you most?"},
+{title:"Mini Birdwatch",steps:["Stand still somewhere safe and quiet.","Listen for bird calls for two minutes.","Observe a bird from a distance if one appears; do not approach or feed it."],finish:"Record one sound or behaviour you noticed."},
+{title:"Tiny Garden Explorer",steps:["Find a plant growing nearby without touching it.","Look closely at the shapes and patterns of its leaves.","Notice whether the soil looks dry or damp, without disturbing it."],finish:"Think of one small way to care for your local green space."}
+];
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(m){$("result").innerHTML='<h3>🌿 '+escapeHtml(m.title)+'</h3>'+m.steps.map((s,i)=>'<div class="mission"><b>Step '+(i+1)+':</b> '+escapeHtml(s)+'</div>').join('')+'<p><b>Wrap up:</b> '+escapeHtml(m.finish)+'</p>'}
+$("sample").addEventListener("click",()=>{const m=samples[Math.floor(Math.random()*samples.length)];render(m);$("status").textContent="Ready-made mission created in your browser. No AI connection needed."});
+$("generate").addEventListener("click",async()=>{
+$("status").textContent="Trying to connect to Ollama on this computer…";
+const prompt=`Create one safe outdoor nature mission. Time: ${$("time").value}. Place: ${$("place").value}. Mood: ${$("mood").value}. Return ONLY JSON with keys title (short string), steps (array of exactly 3 short strings), finish (one short string). Avoid dangerous tasks, trespassing, touching wildlife or unknown plants.`;
+try{
+const r=await fetch("http://localhost:11434/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"qwen2.5:3b",prompt,stream:false,format:"json"})});
+if(!r.ok)throw new Error("Ollama HTTP "+r.status);
+const data=await r.json();const m=JSON.parse(data.response);
+if(!m.title||!Array.isArray(m.steps)||m.steps.length!==3||!m.finish)throw new Error("The model response was not in the expected format");
+render(m);$("status").textContent="Generated with the local qwen2.5:3b model through Ollama.";
+}catch(e){$("status").textContent="Local AI isn't connected yet: "+e.message+". You can use the ready-made mission button now. See README.md for setup instructions."}
+});
+try{const saved=localStorage.getItem("touchgrass-journal");if(saved!==null)$("note").value=saved}catch(e){}
+$("save").addEventListener("click",()=>{try{localStorage.setItem("touchgrass-journal",$("note").value);$("saved").textContent="Saved in this browser on this device. It has not been uploaded."}catch(e){$("saved").textContent="Browser storage is unavailable; your note remains in the text box."}});
+$("clear").addEventListener("click",()=>{ $("note").value="";try{localStorage.removeItem("touchgrass-journal")}catch(e){}$("saved").textContent="Journal note cleared."});
+</script>
+</body></html>

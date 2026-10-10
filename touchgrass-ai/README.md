@@ -1,0 +1,57 @@
+# TouchGrass AI 🌿
+
+A small, responsive nature companion built for the Hacktoberfest Open-Source AI Challenge — Week 1: Touch Grass.
+
+## Features
+
+- Generates small outdoor missions using a locally running open-weight model via Ollama.
+- Includes ready-made missions that work without an AI model or internet connection after the page has loaded.
+- Lets users save a nature journal note in their browser using local storage.
+- Responsive layout with no build step, account, API key, or paid cloud AI service required.
+
+## Tech stack
+
+- HTML, CSS, vanilla JavaScript
+- Optional local inference: Ollama + `qwen2.5:3b`
+
+## Run the website
+
+### Quickest method
+
+Open `index.html` in a modern browser. The ready-made mission button and journal should work immediately.
+
+### Enable local AI on Windows
+
+1. Install Ollama from https://ollama.com/download/windows
+2. Open Command Prompt and run:
+
+   ```bash
+   ollama run qwen2.5:3b
+   ```
+
+3. Wait for the model download to finish. Test it by asking it a simple question.
+4. Keep Ollama running, then serve this folder from localhost (recommended rather than opening the file directly). If Python is installed, open Command Prompt in this folder and run:
+
+   ```bash
+   python -m http.server 8000
+   ```
+
+5. Visit http://localhost:8000 and click **Generate with local AI**.
+
+Depending on your browser and Ollama version, local browser requests may be blocked by cross-origin (CORS) restrictions. If that happens, the quick missions still work; configure Ollama's allowed origins for localhost in its official documentation, then restart Ollama. Do not put a cloud API key in this static website.
+
+## Privacy
+
+The journal note is stored in the current browser's local storage. The page does not upload journal entries. The local AI request goes to `localhost` when Ollama is running.
+
+## Safety
+
+Outdoor suggestions are general prompts, not safety advice. Stay in public/safe areas, respect private property and wildlife, and never touch or eat unknown plants or mushrooms.
+
+## Challenge submission honesty
+
+This is an early prototype. Test the local model connection and publish a live demo before claiming those steps are complete. If you use this project for the challenge, understand the code, make improvements of your own, and describe what you actually tested.
+
+## License
+
+MIT — see `LICENSE`.
